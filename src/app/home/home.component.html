@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge App</title>
+</head>
+<body>
+    <section class="mat-display-1">
+        <h1>Developer matching</h1>
+        <mat-spinner *ngIf="this.showSpinner"></mat-spinner>
+    </section>
+    
+    <div>
+        <ng-container *ngFor="let project of this.projectsList">
+            <mat-expansion-panel hideToggle>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{project.name}}
+                            <mat-panel-description>
+                                <p>Click to see the requirements.</p>
+                            </mat-panel-description>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div>
+                    <h3>Project requirements</h3>
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let dependency of project.dependencies">
+                            {{dependency}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+                <mat-divider></mat-divider>
+                <div>
+                    <h3>Qualified Developers for this project</h3>
+                </div>
+                
+                    <ng-container *ngIf="project.developers">
+                        
+                            <div class="devs">
+                                <mat-list *ngFor="let developer of project.developers">
+                                    <mat-list-item>
+                                            <challenge-developer [developer]="developer"></challenge-developer>
+                                        </mat-list-item>
+                                </mat-list>  
+                            </div>
+                    </ng-container>
+                
+                <br>
+                <br>
+                <div>
+                    <button (click)="findDev(project.id)" mat-stroked-button color="primary">Search</button>
+                    <button (click)="deleteProject(project.id)" mat-stroked-button color="warn">Delete</button>
+                </div>
+            </mat-expansion-panel>
+        </ng-container>
+        <br>
+        <br>
+        <challenge-project (projectInserted)="handleProjectInsertion($event)"></challenge-project>
+    </div>
+</body>
+</html>

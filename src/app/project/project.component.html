@@ -1,0 +1,24 @@
+<mat-form-field appearance="legacy">
+    <mat-label>Project Name</mat-label>
+    <input matInput placeholder="Project name" [(ngModel)]='this.project.name'>
+</mat-form-field>
+<br>
+<mat-form-field class="example-chip-list">
+    <mat-chip-list #chipList aria-label="Skill selection">
+        <ng-container *ngIf="this.project.dependencies">
+            <mat-chip *ngFor="let dependency of this.project.dependencies" [selectable]="selectable"
+                    [removable]="removable" (removed)="remove(dependency)">
+            {{dependency}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+        </ng-container>
+        <input placeholder="New Skill..."
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    </mat-form-field>
+    <br>
+    
+    <button (click)="register()" mat-stroked-button color="primary">Insert Project</button>
